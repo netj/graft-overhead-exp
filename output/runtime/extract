@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -eu
 cat stderr |
-extract-regexp 'mapred.JobClient:.*Total (ms)=' '\d+' ''
+extract-regexp 'mapred.JobClient:.*Total \(ms\)=' '\d+' ''

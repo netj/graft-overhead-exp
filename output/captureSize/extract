@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 set -eu
 
-jobid=$(set +x; grep <../stderr "[m]apred.JobClient: Running job: job_.*" | sed 's/.* Running job: //')
-hadoop fs -lsr giraph-debug-traces/$jobid | awk '{print $5}' | awk '{sum+=$1}  END{print sum}'
+case $debugConfig in
+    none)
+        echo 0
+        ;;
+
+    *)
+        jobid=$(grep <stderr "[m]apred.JobClient: Running job: job_.*" | sed 's/.* Running job: //')
+        hadoop fs -test -e giraph-debug-traces/$jobid
+        hadoop fs -lsr giraph-debug-traces/$jobid | awk '{print $5}' | awk '{sum+=$1}  END{print sum}'
+esac
