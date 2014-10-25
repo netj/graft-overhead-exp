@@ -9,12 +9,14 @@ GRAPHS = \
 	 #
 
 .PHONY: upload2hdfs generate
+HDFS_GRAPHS_ROOT=graphs
 upload2hdfs: generate
 	set -eu; \
 	for graph in $(GRAPHS); do \
-	    ! hadoop fs -test -e graphs/$$graph || continue; \
-	    hadoop fs -rmr graphs/$$graph || true; \
-	    hadoop fs -put $$graph graphs/$$graph; \
+	    ! hadoop fs -test -e $(HDFS_GRAPHS_ROOT)/$$graph || continue; \
+	    hadoop fs -rmr $(HDFS_GRAPHS_ROOT)/$$graph || true; \
+	    hadoop fs -mkdir $(HDFS_GRAPHS_ROOT); \
+	    hadoop fs -put $$graph $(HDFS_GRAPHS_ROOT)/$$graph; \
         done
 
 generate: $(GRAPHS)
