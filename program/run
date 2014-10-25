@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
+error() { echo >&2 "$@"; false; }
+
 # use ./giraph-debug in place of hadoop jar when using graft
 case $debugConfig in
     none)
@@ -20,13 +22,15 @@ inputPath=graphs/$graph
 outputPath=outputs/$algo/$graph/$_3X_RUN/
 outputPathParent=$(dirname "$outputPath")
 hadoop fs -test -e $inputPath ||
-    ./upload2hdfs.sh $graph
+    error "$inputPath: Graph not found on HDFS"
 hadoop fs -test -e $outputPathParent ||
     hadoop fs -mkdir $outputPathParent
 
 # construct list of command-line arguments for GiraphRunner
 giraphRunnerArgs=(
 $(cat args-algo)
+"$@"
+
 -vip $inputPath
 -vof org.apache.giraph.io.formats.IdWithValueTextOutputFormat
 -op $outputPath
@@ -47,5 +51,6 @@ cleanup() {
 trap cleanup INT QUIT TERM
 
 # launch a job
+set -x
 "${cmd[@]}" target/giraph-debugger-*-jar-with-dependencies.jar \
     org.apache.giraph.GiraphRunner "${giraphRunnerArgs[@]}"
