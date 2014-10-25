@@ -38,8 +38,8 @@ $(cat args-algo)
 -w $numWorkers
 
 # some Giraph/Hadoop configurations to make the runs smoother
--ca mapreduce.job.counters.limit=10000
--ca giraph.useSuperstepCounters=false 
+-ca mapreduce.job.counters.limit=100000
+#-ca giraph.useSuperstepCounters=false 
 )
 
 # make sure the job we launch below is killed when interrupted
