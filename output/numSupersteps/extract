@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eu
+cat rusage stdout stderr |
+extract-regexp 'mapred.JobClient:.*Superstep=' '\d+' ''

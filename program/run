@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -eu
+
+# use ./giraph-debug in place of hadoop jar when using graft
+case $debugConfig in
+    none)
+        cmd=(
+        hadoop jar
+        )
+        ;;
+    *)
+        cmd=(
+        ./giraph-debug
+        cat args-giraph-debug
+        )
+esac
+
+# make sure input and output is possible
+inputPath=graphs/$graph
+outputPath=outputs/$algo/$graph/$_3X_RUN/
+outputPathParent=$(dirname "$outputPath")
+hadoop fs -test -e $inputPath ||
+    ./upload2hdfs.sh $graph
+hadoop fs -test -e $outputPathParent ||
+    hadoop fs -mkdir $outputPathParent
+
+# construct list of command-line arguments for GiraphRunner
+giraphRunnerArgs=(
+$(cat args-algo)
+-vip $inputPath
+-vof org.apache.giraph.io.formats.IdWithValueTextOutputFormat
+-op $outputPath
+
+-w $numWorkers
+
+# some Giraph/Hadoop configurations to make the runs smoother
+-ca mapreduce.job.counters.limit=10000
+-ca giraph.useSuperstepCounters=false 
+)
+
+# make sure the job we launch below is killed when interrupted
+cleanup() {
+    jobid=$(set +x; grep <../stderr "[m]apred.JobClient: Running job: job_.*" | sed 's/.* Running job: //')
+    [ -z "$jobid" ] || hadoop job -kill $jobid
+    exit 255
+}
+trap cleanup INT QUIT TERM
+
+# launch a job
+"${cmd[@]}" target/giraph-debugger-*-jar-with-dependencies.jar \
+    org.apache.giraph.GiraphRunner "${giraphRunnerArgs[@]}"
