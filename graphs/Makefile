@@ -24,12 +24,13 @@ generate: $(GRAPHS)
 define GENERATE_K_REGULAR_BIPARTITE_GRAPH
 mkdir -p $@ && export N k && \
 seq $(NUM_SPLITS) | xargs -P$(NUM_PARALLEL) -L1 \
-sh -c './k-regular-bipartite-graph.py $1 $2 $(NUM_SPLITS) $$1 >$@/part-$$1' --
+sh -xc './k-regular-bipartite-graph.py $1 $2 $(NUM_SPLITS) $$1 >$@/part-$$1' --
 endef
 
 1M-3reg-bipartite:
 	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,1000000,3)
 
+1B-3reg-bipartite: NUM_SPLITS=5000
 1B-3reg-bipartite:
 	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,1000000000,3)
 
