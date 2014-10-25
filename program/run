@@ -13,7 +13,7 @@ case $debugConfig in
     *)
         cmd=(
         ./giraph-debug
-        cat args-giraph-debug
+        $(cat args-giraph-debug 2>/dev/null || true)
         )
 esac
 

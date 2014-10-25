@@ -8,6 +8,7 @@ case $debugConfig in
 
     *)
         jobid=$(grep <stderr "[m]apred.JobClient: Running job: job_.*" | sed 's/.* Running job: //')
+        [ -n "$jobid" ] || { echo >&2 "No job Id found"; false; }
         hadoop fs -test -e giraph-debug-traces/$jobid
         hadoop fs -lsr giraph-debug-traces/$jobid | awk '{print $5}' | awk '{sum+=$1}  END{print sum}'
 esac
