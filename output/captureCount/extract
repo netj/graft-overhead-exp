@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -eu
+
+case $debugConfig in
+    none)
+        echo 0
+        ;;
+
+    *)
+        jobid=$(grep <stderr "[m]apred.JobClient: Running job: job_.*" | sed 's/.* Running job: //')
+        [ -n "$jobid" ] || { echo >&2 "No job Id found"; false; }
+        hadoop fs -test -e giraph-debug-traces/$jobid
+        hadoop fs -lsr giraph-debug-traces/$jobid | wc -l
+esac
