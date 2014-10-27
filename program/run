@@ -3,6 +3,8 @@ set -eu
 
 error() { echo >&2 "$@"; false; }
 
+jarFile=$({ cat args-jar || ls target/giraph-debugger-*.jar | head -n 1; } 2>/dev/null)
+
 # use ./giraph-debug in place of hadoop jar when using graft
 case $debugConfig in
     none)
@@ -28,6 +30,7 @@ hadoop fs -test -e $outputPathParent ||
 
 # Java VM options for each worker
 jvmOpts=(
+-Xmx8g
 -XX:+UseParallelGC
 -XX:+PrintGC
 -XX:+PrintGCTimeStamps
@@ -61,5 +64,5 @@ trap cleanup INT QUIT TERM
 
 # launch a job
 set -x
-"${cmd[@]}" target/giraph-debugger-*-jar-with-dependencies.jar \
+"${cmd[@]}" "$jarFile" \
     org.apache.giraph.GiraphRunner "${giraphRunnerArgs[@]}"

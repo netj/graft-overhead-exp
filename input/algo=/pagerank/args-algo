@@ -1,0 +1,10 @@
+    org.apache.giraph.debugger.examples.pagerank.SimplePageRankComputation
+-ca org.apache.giraph.debugger.examples.pagerank.SimplePageRankComputation.maxSupersteps=100
+-mc org.apache.giraph.debugger.examples.pagerank.SimplePageRankMasterCompute
+
+#org.apache.giraph.examples.SimplePageRankComputation
+
+#org.apache.giraph.examples.PageRankComputation
+#-mc org.apache.giraph.examples.RandomWalkVertexMasterCompute
+#-wc org.apache.giraph.examples.RandomWalkWorkerContext
+#-ca org.apache.giraph.examples.PageRankComputation.maxSupersteps=10
