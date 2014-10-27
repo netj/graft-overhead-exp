@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -eu
+total=$(cat stderr | extract-regexp 'mapred.JobClient:     Total \(ms\)=' '\d+' '')
+
+rest=0
+for giraphTimer in Setup Initialize Shutdown
+do  v=$(cat stderr | extract-regexp 'mapred.JobClient:     '"$giraphTimer"' \(ms\)=' '\d+' '') || continue
+    let rest+=${v:-0}
+done
+
+echo $(($total - $rest))
