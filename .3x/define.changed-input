@@ -1,4 +1,0 @@
-graph=1M-3reg-bipartite
-algo=graphColoring
-debugConfig=sampling
-debugConfig=sampling
