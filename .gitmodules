@@ -1,3 +1,6 @@
 [submodule "graft"]
 	path = graft
 	url = https://github.com/semihsalihoglu/graft.git
+[submodule "giraph"]
+	path = giraph
+	url = https://github.com/apache/giraph.git
