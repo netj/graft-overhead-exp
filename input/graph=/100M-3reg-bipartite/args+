@@ -1,1 +1,1 @@
--vif org.apache.giraph.debugger.examples.bipartitematching.BipartiteGraphInputFormat
+-vif org.apache.giraph.debugger.examples.BipartiteGraphInputFormat

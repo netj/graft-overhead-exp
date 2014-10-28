@@ -1,0 +1,3 @@
+    org.apache.giraph.debugger.examples.randomwalk.RandomWalkComputation
+-ca org.apache.giraph.debugger.examples.randomwalk.RandomWalkComputation.walkLength=6
+-ca org.apache.giraph.debugger.examples.randomwalk.RandomWalkComputation.initialNumWalkers=10
