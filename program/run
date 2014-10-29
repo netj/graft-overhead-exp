@@ -62,6 +62,12 @@ cleanup() {
 }
 trap cleanup INT QUIT TERM
 
+# make sure no jobs are running before launching a new one
+hadoop job -list | grep '^job_' | awk '{print $1}' | xargs -L1 --no-run-if-empty --verbose hadoop job -kill
+
+# clean up dangling VMs on all slaves before launching a new job
+foreach-hadoop-slaves 'ps x | grep "[j]ava" | grep -Ev "[-]Dproc_(datanode|tasktracker)" | awk "{print \$1}" | xargs --no-run-if-empty --verbose kill' || true
+
 # launch a job
 set -x
 "${cmd[@]}" "$jarFile" \
