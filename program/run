@@ -30,7 +30,7 @@ hadoop fs -test -e $outputPathParent ||
 
 # Java VM options for each worker
 jvmOpts=(
--Xmx8g
+-Xmx${workerMem:-1g}
 -XX:+UseParallelGC
 -XX:+PrintGC
 -XX:+PrintGCTimeStamps
@@ -46,7 +46,7 @@ $(cat args-algo)
 -vof org.apache.giraph.io.formats.IdWithValueTextOutputFormat
 -op $outputPath
 
--w $numWorkers
+-w ${numWorkers:-1}
 
 # some Giraph/Hadoop configurations to make the runs smoother
 -ca mapred.map.child.java.opts="${jvmOpts[*]}"
