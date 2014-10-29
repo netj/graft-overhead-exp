@@ -37,9 +37,9 @@ endef
 100M-3reg-bipartite:
 	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,100000000,3)
 
-1B-3reg-bipartite: NUM_SPLITS=5000
-1B-3reg-bipartite:
-	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,1000000000,3)
+2B-3reg-bipartite: NUM_SPLITS=5000
+2B-3reg-bipartite:
+	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,2000000000,3)
 
 # TODO random
 
