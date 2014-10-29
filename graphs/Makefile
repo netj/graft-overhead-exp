@@ -7,7 +7,9 @@ NUM_SPLITS = 100
 GRAPHS = \
 	 $(shell grep 'reg-bipartite:$$' Makefile | sed 's/:$$//') \
 	 twitter-d-n \
+	 twitter-u-n \
 	 sk-2005-d-n \
+	 sk-2005-u-n \
 	 #
 
 .PHONY: upload2hdfs generate
