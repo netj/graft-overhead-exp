@@ -6,6 +6,8 @@ NUM_PARALLEL = 4
 NUM_SPLITS = 100
 GRAPHS = \
 	 $(shell grep 'reg-bipartite:$$' Makefile | sed 's/:$$//') \
+	 twitter-d-n \
+	 sk-2005-d-n \
 	 #
 
 .PHONY: upload2hdfs generate
@@ -40,3 +42,9 @@ endef
 	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,1000000000,3)
 
 # TODO random
+
+twitter-d-n \
+twitter-u-n \
+sk-2005-u-n \
+sk-2005-d-n:
+	ln -sfnv /dfs/scratch0/iln_hadoop_backup.20140827/user/semih/gps/data/$@ .
