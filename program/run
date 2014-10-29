@@ -66,7 +66,21 @@ trap cleanup INT QUIT TERM
 hadoop job -list | grep '^job_' | awk '{print $1}' | xargs -L1 --no-run-if-empty --verbose hadoop job -kill
 
 # clean up dangling VMs on all slaves before launching a new job
-foreach-hadoop-slaves 'ps x | grep "[j]ava" | grep -Ev "[-]Dproc_(datanode|tasktracker)" | awk "{print \$1}" | xargs --no-run-if-empty --verbose kill -KILL' || true
+killSlaveJVMs() {
+    local signal=${1:-}
+    local kills=$(
+        NO_VERBOSE=true \
+            foreach-hadoop-slaves 'ps x | grep "[j]ava" |
+                grep -Ev "[-]Dproc_(datanode|tasktracker)" |
+                awk "{print \$1}" |
+                xargs --no-run-if-empty --verbose kill '"$signal" 2>&1 || true
+        )
+    echo "$kills" >&2
+    [[ -n "$kills" ]]
+}
+for signal in TERM TERM TERM KILL; do
+    killSlaveJVMs -$signal || break
+done
 
 # launch a job
 set -x
