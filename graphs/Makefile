@@ -15,7 +15,7 @@ upload2hdfs: generate
 	for graph in $(GRAPHS); do \
 	    ! hadoop fs -test -e $(HDFS_GRAPHS_ROOT)/$$graph || continue; \
 	    hadoop fs -rmr $(HDFS_GRAPHS_ROOT)/$$graph || true; \
-	    hadoop fs -mkdir $(HDFS_GRAPHS_ROOT); \
+	    hadoop fs -mkdir $(HDFS_GRAPHS_ROOT) || true; \
 	    hadoop fs -put $$graph $(HDFS_GRAPHS_ROOT)/$$graph; \
         done
 
@@ -29,6 +29,11 @@ endef
 
 1M-3reg-bipartite:
 	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,1000000,3)
+10M-3reg-bipartite:
+	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,10000000,3)
+100M-3reg-bipartite: NUM_SPLITS=500
+100M-3reg-bipartite:
+	$(call GENERATE_K_REGULAR_BIPARTITE_GRAPH,100000000,3)
 
 1B-3reg-bipartite: NUM_SPLITS=5000
 1B-3reg-bipartite:
