@@ -1,3 +1,2 @@
-# disable catching exception
 -E
 org.apache.giraph.debugger.examples.randomwalk.RandomWalkDebugConfig
