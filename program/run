@@ -30,7 +30,7 @@ hadoop fs -test -e $outputPathParent ||
 
 # Java VM options for each worker
 jvmOpts=(
--Xmx${workerMem:-1g}
+-Xmx${workerMem:=1g}
 -XX:+UseParallelGC
 -XX:+PrintGC
 -XX:+PrintGCTimeStamps
@@ -80,7 +80,18 @@ killSlaveJVMs() {
 }
 for signal in TERM TERM TERM KILL; do
     killSlaveJVMs -$signal || break
+    sleep 2
 done
+
+# wait until JVM can be created on all slaves
+{
+echo "Making sure JVM can be created with options: ${jvmOpts[*]}"
+while failures=$(foreach-hadoop-slaves 'java -version '"${jvmOpts[*]}"' &>/dev/null || echo Cannot create JVM'); [[ -n "$failures" ]]; do
+    echo "$failures"
+    sleep 1
+    echo Retrying at $(date)
+done
+} >&2
 
 # launch a job
 set -x
