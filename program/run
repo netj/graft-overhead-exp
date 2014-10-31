@@ -75,13 +75,15 @@ killSlaveJVMs() {
                 awk "{print \$1}" |
                 xargs --no-run-if-empty --verbose kill '"$signal" 2>&1 || true
         )
-    echo "$kills" >&2
+    echo "$kills"
     [[ -n "$kills" ]]
 }
+t=5s
 for signal in TERM TERM TERM KILL; do
     killSlaveJVMs -$signal || break
-    sleep 2
-done
+    echo Waiting for $t
+    sleep $t
+done >&2
 
 # wait until JVM can be created on all slaves
 {
