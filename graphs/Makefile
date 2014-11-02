@@ -8,8 +8,10 @@ GRAPHS = \
 	 $(shell grep 'reg-bipartite:$$' Makefile | sed 's/:$$//') \
 	 twitter-d-n \
 	 twitter-u-n \
+	 twitter-u-n-fixed-random-weights \
 	 sk-2005-d-n \
 	 sk-2005-u-n \
+	 sk-2005-u-n-fixed-random-weights \
 	 #
 
 .PHONY: upload2hdfs generate
@@ -46,7 +48,7 @@ endef
 # TODO random
 
 twitter-d-n \
-twitter-u-n \
-sk-2005-u-n \
+twitter-u-n% \
+sk-2005-u-n% \
 sk-2005-d-n:
 	ln -sfnv /dfs/scratch0/iln_hadoop_backup.20140827/user/semih/gps/data/$@ .
