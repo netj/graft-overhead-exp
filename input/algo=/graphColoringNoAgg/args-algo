@@ -1,0 +1,2 @@
+org.apache.giraph.debugger.examples.graphcoloring.GraphColoringComputation
+-mc org.apache.giraph.debugger.examples.graphcoloring.GraphColoringMaster
