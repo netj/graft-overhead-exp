@@ -1,0 +1,4 @@
+-R 10
+-N
+-m 10
+org.apache.giraph.debugger.examples.mwm.MWMDebugConfig
