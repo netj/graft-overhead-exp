@@ -1,0 +1,2 @@
+-E
+org.apache.giraph.debugger.examples.graphcoloring.GraphColoringMessageConstraintDebugConfig
