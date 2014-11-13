@@ -28,6 +28,9 @@ hadoop fs -test -e $inputPath ||
 hadoop fs -test -e $outputPathParent ||
     hadoop fs -mkdir $outputPathParent
 
+# clean up HDFS so it doesn't affect this run's runtime
+(set -x; hadoop fs -rmr giraph-debug-traces outputs || true)
+
 # Java VM options for each worker
 jvmOpts=(
 -Xmx${workerMem:=1g}
