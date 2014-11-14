@@ -1,4 +1,5 @@
 -R 10
 -N
--m 10
+-m 100
+-M 100
 org.apache.giraph.debugger.examples.integrity.ConnectedComponentsDebugConfig
